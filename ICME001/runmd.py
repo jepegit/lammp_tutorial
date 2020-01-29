@@ -15,7 +15,11 @@ lammps_cmd = 'lmp_serial'
 
 def run_simulation(infile, lattice_constant=4.0):
     print(f"Running LAMMPS ({infile})".center(80, "="))
-    result = subprocess.run([lammps_cmd, '-var', 'latconst', str(lattice_constant)], stdin=open(infile), stdout=subprocess.PIPE).stdout.decode('utf-8')
+    result = subprocess.run(
+        [lammps_cmd, '-var', 'latconst', str(lattice_constant)], 
+        stdin=open(infile), 
+        stdout=subprocess.PIPE
+    ).stdout.decode('utf-8')
 
     print(result)
 
@@ -45,7 +49,7 @@ plt.plot(results_df.lattice_constant, results_df.cohesive_energy, '-o')
 plt.title("Cohesive Energy vs. Lattice Constant for fcc Aluminium")
 plt.xlabel("Lattice constant (Å)")
 plt.ylabel("Cohesive Energy (eV)")
-plt.show()
+plt.savefig("out.png")
 
 
 
