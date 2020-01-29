@@ -24,12 +24,12 @@ lattice	fcc 4.900000000000002 orient x 1 0 0 orient y 0 1 0 orient z 0 0 1
 Lattice spacing in x,y,z = 4.9 4.9 4.9
 create_atoms 1 box
 Created 4 atoms
-  create_atoms CPU = 0.000253916 secs
+  create_atoms CPU = 0.000202894 secs
 replicate 1 1 1
   orthogonal box = (0 0 0) to (4.9 4.9 4.9)
   1 by 1 by 1 MPI processor grid
   4 atoms
-  replicate CPU = 3.69549e-05 secs
+  replicate CPU = 3.71933e-05 secs
 
 # ---------- Define Interatomic Potential ---------------------
 pair_style eam/alloy
@@ -59,9 +59,9 @@ Neighbor list info ...
 Per MPI rank memory allocation (min/avg/max) = 3.088 | 3.088 | 3.088 Mbytes
 Step Temp E_pair E_mol TotEng Press 
        0            0   -10.081163            0   -10.081163   -133259.96 
-Loop time of 0 on 1 procs for 0 steps with 4 atoms
+Loop time of 9.53674e-07 on 1 procs for 0 steps with 4 atoms
 
-0.0% CPU use with 1 MPI tasks x no OpenMP threads
+104.9% CPU use with 1 MPI tasks x no OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
@@ -71,7 +71,7 @@ Neigh   | 0          | 0          | 0          |   0.0 |  0.00
 Comm    | 0          | 0          | 0          |   0.0 |  0.00
 Output  | 0          | 0          | 0          |   0.0 |  0.00
 Modify  | 0          | 0          | 0          |   0.0 |  0.00
-Other   |            | 0          |            |       |  0.00
+Other   |            | 9.537e-07  |            |       |100.00
 
 Nlocal:    4 ave 4 max 4 min
 Histogram: 1 0 0 0 0 0 0 0 0 0

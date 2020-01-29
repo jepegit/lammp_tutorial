@@ -8,6 +8,8 @@ lattice_constants = []
 cohesive_energies = []
 
 infile = 'calc_fcc.in'
+a0, a1, da = (3.0, 5.0, 0.1)
+
 lammps_cmd = 'lmp_serial'
 
 
@@ -25,7 +27,7 @@ def run_simulation(infile, lattice_constant=4.0):
         cohesive_energy = np.NaN
     return cohesive_energy
 
-for a in np.arange(3.0, 5.0, 0.1):
+for a in np.arange(a0, a1, da):
     ce = run_simulation(infile, a)
     lattice_constants.append(a)
     cohesive_energies.append(ce)
