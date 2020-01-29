@@ -1,0 +1,106 @@
+LAMMPS (7 Aug 2019)
+# Find energy fcc configuration
+# tutorial from: https://icme.hpc.msstate.edu/mediawiki/index.php/LAMMPS_Help
+
+# -------------------------- INIT --------------------------------------------
+clear
+units metal
+dimension 3
+boundary p p p
+atom_style atomic
+atom_modify map array
+
+# ---------- Create Atoms ---------------------
+lattice 	fcc ${latconst}
+lattice 	fcc 4.900000000000002
+Lattice spacing in x,y,z = 4.9 4.9 4.9
+region	box block 0 1 0 1 0 1 units lattice
+create_box	1 box
+Created orthogonal box = (0 0 0) to (4.9 4.9 4.9)
+  1 by 1 by 1 MPI processor grid
+
+lattice	fcc ${latconst} orient x 1 0 0 orient y 0 1 0 orient z 0 0 1
+lattice	fcc 4.900000000000002 orient x 1 0 0 orient y 0 1 0 orient z 0 0 1
+Lattice spacing in x,y,z = 4.9 4.9 4.9
+create_atoms 1 box
+Created 4 atoms
+  create_atoms CPU = 0.000231981 secs
+replicate 1 1 1
+  orthogonal box = (0 0 0) to (4.9 4.9 4.9)
+  1 by 1 by 1 MPI processor grid
+  4 atoms
+  replicate CPU = 3.60012e-05 secs
+
+# ---------- Define Interatomic Potential ---------------------
+pair_style eam/alloy
+pair_coeff * * ../../pots/Al99.eam.alloy Al
+neighbor 2.0 bin
+neigh_modify delay 10 check yes
+
+# ---------- Define Settings ---------------------
+compute eng all pe/atom
+compute eatoms all reduce sum c_eng
+
+# ---------- Run 0 ---------------------
+run 0
+WARNING: No fixes defined, atoms won't move (src/verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8.28721
+  ghost atom cutoff = 8.28721
+  binsize = 4.1436, bins = 2 2 2
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair eam/alloy, perpetual
+      attributes: half, newton on
+      pair build: half/bin/atomonly/newton
+      stencil: half/bin/3d/newton
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 3.088 | 3.088 | 3.088 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0   -10.081163            0   -10.081163   -133259.96 
+Loop time of 1.19209e-06 on 1 procs for 0 steps with 4 atoms
+
+83.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 1.192e-06  |            |       |100.00
+
+Nlocal:    4 ave 4 max 4 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    360 ave 360 max 360 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    156 ave 156 max 156 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 156
+Ave neighs/atom = 39
+Neighbor list builds = 0
+Dangerous builds = 0
+
+variable natoms equal "count(all)"
+variable teng equal "pe"
+variable length equal "lx"
+variable ecoh equal "v_teng/v_natoms"
+
+print "Total energy (eV) = ${teng};"
+Total energy (eV) = -10.0811626336944;
+print "Number of atoms = ${natoms};"
+Number of atoms = 4;
+print "Lattice constant (Angstoms) = ${length};"
+Lattice constant (Angstoms) = 4.9;
+print "Cohesive energy (eV) = ${ecoh};"
+Cohesive energy (eV) = -2.5202906584236;
+print "%% ecoh = ${ecoh};"
+%% ecoh = -2.5202906584236;
+
+print "All done!"
+All done!
+Total wall time: 0:00:00
